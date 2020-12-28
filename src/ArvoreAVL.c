@@ -3,15 +3,7 @@
 #include <string.h>
 #include "ArvoreAVL.h" //inclui os Prot?tipos
 
-typedef char * DADO;
-
-struct NO{
-    DADO info;
-    int altura;
-    int ocorr;
-    struct NO *esq;
-    struct NO *dir;
-};
+#define TMAX 20
 
 ArvAVL* cria_ArvAVL(){
     ArvAVL* raiz = (ArvAVL*) malloc(sizeof(ArvAVL));
@@ -29,8 +21,6 @@ void libera_NO(struct NO* no){
     free(no);
     no = NULL;
 }
-
-void libera_NO(struct NO* no);
 
 void libera_ArvAVL(ArvAVL* raiz){
     if(raiz == NULL)
@@ -117,20 +107,10 @@ void emOrdem_ArvAVL(ArvAVL *raiz){
     if(*raiz != NULL){
         emOrdem_ArvAVL(&((*raiz)->esq));
         //printf("%d\n",(*raiz)->info);
-        printf("%s %d\n",(*raiz)->info,(*raiz)->ocorr);
+        printf("%d %s %s\n",(*raiz)->acessos,(*raiz)->info,(*raiz)->trad);
+        (*raiz)->acessos++;
         emOrdem_ArvAVL(&((*raiz)->dir));
     }
-}
-
-void geraListaOrdenadaOcorr(ArvAVL *raiz, Lista *li){
-  if(raiz==NULL)
-    return;
-
-  if(*raiz != NULL){
-    if((*raiz)->esq!=NULL) geraListaOrdenadaOcorr(&((*raiz)->esq),li);
-    if((*raiz)->dir!=NULL) geraListaOrdenadaOcorr(&((*raiz)->dir),li);
-    insere_lista_ordenada(li,(*raiz)->info,(*raiz)->ocorr);
-  }
 }
 
 void posOrdem_ArvAVL(ArvAVL *raiz){
@@ -143,7 +123,7 @@ void posOrdem_ArvAVL(ArvAVL *raiz){
     }
 }
 
-int consulta_ArvAVL(ArvAVL *raiz, DADO valor){
+int consulta_ArvAVL(ArvAVL *raiz, char *valor){
     if(raiz == NULL)
         return 0;
     struct NO* atual = *raiz;
@@ -190,7 +170,7 @@ void RotacaoRL(ArvAVL *A){//RL
     RotacaoRR(A);
 }
 
-int insere_ArvAVL(ArvAVL *raiz, DADO valor){
+int insere_ArvAVL(ArvAVL *raiz, char *valor, char *trad, int acessos){
     int res;
     if(*raiz == NULL){//?rvore vazia ou n? folha
         struct NO *novo;
@@ -198,11 +178,13 @@ int insere_ArvAVL(ArvAVL *raiz, DADO valor){
         if(novo == NULL)
             return 0;
 
-        novo->info=(char *)malloc(20*sizeof(char));
+        novo->info=(char *)malloc(TMAX*sizeof(char));
+        novo->trad=(char *)malloc(TMAX*sizeof(char));
 
         strcpy(novo->info,valor);
+        strcpy(novo->trad,trad);
         novo->altura = 0;
-        novo->ocorr=1;
+        novo->acessos=acessos;
         novo->esq = NULL;
         novo->dir = NULL;
         *raiz = novo;
@@ -211,9 +193,9 @@ int insere_ArvAVL(ArvAVL *raiz, DADO valor){
 
     struct NO *atual = *raiz;
     if(strcmp(valor,atual->info)<0){
-        if((res = insere_ArvAVL(&(atual->esq), valor)) == 1){
+        if((res = insere_ArvAVL(&(atual->esq), valor, trad, acessos)) == 1){
             if(fatorBalanceamento_NO(atual) >= 2){
-                if(strcmp(valor,(*raiz)->esq->info)<0){
+                  if(strcmp(valor,(*raiz)->esq->info)<0){
                     RotacaoLL(raiz);
                 }else{
                     RotacaoLR(raiz);
@@ -222,7 +204,7 @@ int insere_ArvAVL(ArvAVL *raiz, DADO valor){
         }
     }else{
         if(strcmp(valor,atual->info)>0){
-            if((res = insere_ArvAVL(&(atual->dir), valor)) == 1){
+            if((res = insere_ArvAVL(&(atual->dir), valor, trad, acessos)) == 1){
                 if(fatorBalanceamento_NO(atual) >= 2){
                     if(strcmp((*raiz)->dir->info,valor)<0){
                         RotacaoRR(raiz);
@@ -232,7 +214,7 @@ int insere_ArvAVL(ArvAVL *raiz, DADO valor){
                 }
             }
         }else{
-            atual->ocorr++;
+            atual->acessos++;
             return 0;
         }
     }
@@ -252,7 +234,7 @@ struct NO* procuraMenor(struct NO* atual){
     return no1;
 }
 
-int remove_ArvAVL(ArvAVL *raiz, DADO valor){
+int remove_ArvAVL(ArvAVL *raiz, char *valor){
 	if(*raiz == NULL){// valor n?o existe
 	    printf("valor n?o existe!!\n");
 	    return 0;
