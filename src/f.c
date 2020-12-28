@@ -4,10 +4,6 @@
 
 #define TMAX 20
 
-int novoDict(FILE *fdict, struct NO *no){
-
-
-}
 
 ArvAVL *lerDict(FILE *fdict){
 
@@ -23,7 +19,7 @@ ArvAVL *lerDict(FILE *fdict){
     fscanf(fdict,"%s",palavra);
     fscanf(fdict,"%s",trad);
 
-    acessos++;
+    if(acessos>=0) acessos++;
     
 
     insere_ArvAVL(dict,palavra,trad,acessos);
