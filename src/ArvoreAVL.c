@@ -108,7 +108,6 @@ void emOrdem_ArvAVL(ArvAVL *raiz){
         emOrdem_ArvAVL(&((*raiz)->esq));
         //printf("%d\n",(*raiz)->info);
         printf("%d %s %s\n",(*raiz)->acessos,(*raiz)->info,(*raiz)->trad);
-        (*raiz)->acessos++;
         emOrdem_ArvAVL(&((*raiz)->dir));
     }
 }

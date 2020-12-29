@@ -17,14 +17,28 @@
 
 int main()
 {
-    FILE *fdict = fopen("dict.txt","rw");
+  FILE *fdict = fopen("dict.txt","rw");
+  ArvAVL *avl_dict = lerDict(fdict);
 
-    ArvAVL *avl_dict = lerDict(fdict);
-    
-    emOrdem_ArvAVL(avl_dict);
+  int inp_n;
+  char inp_s[TMAX];
+  while(inp_n>=0){
 
-    libera_ArvAVL(avl_dict);
-    fclose(fdict);
+    scanf("%d\n",&inp_n);
+    fflush(stdin);
+
+    scanf(" %s ",inp_s);
+    fflush(stdin);
+
+    if(inp_n==0){
+      traduz(avl_dict,inp_s);
+    } else {
+    }
+
+  }
+
+  libera_ArvAVL(avl_dict);
+  fclose(fdict);
 
     return 0;
 }

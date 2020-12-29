@@ -1,6 +1,7 @@
 #include "ArvoreAVL.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "string.h"
 
 #define TMAX 20
 
@@ -27,3 +28,30 @@ ArvAVL *lerDict(FILE *fdict){
 
   return dict;
 }
+
+int traduz(ArvAVL *raiz, char *valor){
+    if(raiz == NULL)
+        return 0;
+    struct NO* atual = *raiz;
+    while(atual != NULL){
+        if(strcmp(valor,atual->info)==0){
+          atual->acessos++;
+          printf("%s\n",atual->trad);
+            return 1;
+        }
+        if(strcmp(valor,atual->info)>0)
+            atual = atual->dir;
+        else
+            atual = atual->esq;
+    }
+    return 0;
+}
+
+//int strcmp_n(char *inp1, char *inp2){
+//
+////  for(int i=0;i<strlen())
+//
+//  return 0;
+//}
+
+
