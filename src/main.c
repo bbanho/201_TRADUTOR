@@ -24,10 +24,11 @@ int main()
   char inp_s[TMAX];
   while(inp_n>=0){
 
-    scanf("%d\n",&inp_n);
+    scanf("%d",&inp_n);
+    if(inp_n<0) break;
     fflush(stdin);
 
-    scanf(" %s ",inp_s);
+    scanf("%s",inp_s);
     fflush(stdin);
 
     if(inp_n==0){

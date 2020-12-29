@@ -4,10 +4,9 @@ struct NO{
 
   char *info;
   char *trad;
-
   int acessos;
-  int altura;
 
+  int altura;
   struct NO *esq;
   struct NO *dir;
 

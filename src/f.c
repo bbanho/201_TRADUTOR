@@ -11,8 +11,8 @@ ArvAVL *lerDict(FILE *fdict){
   ArvAVL* dict;
   dict=cria_ArvAVL();
 
-  char *palavra = (char *) malloc(TMAX*sizeof(char));
-  char *trad = (char *) malloc(TMAX*sizeof(char));
+  char palavra[TMAX];
+  char trad[TMAX];
 
   int acessos=0;
   while(acessos>=0){
@@ -24,6 +24,25 @@ ArvAVL *lerDict(FILE *fdict){
     
 
     insere_ArvAVL(dict,palavra,trad,acessos);
+  }
+
+  return dict;
+}
+
+ArvAVL *escreveDict(FILE *fdict, ArvAVL dict){
+
+  int acessos   = dict->acessos;
+
+  char palavra[TMAX];
+  strcpy(palavra,dict->info);
+
+  char trad[TMAX];
+  strcpy(trad,dict->info);
+
+  while(acessos>=0){
+    fprintf(fdict,"%d",acessos);
+    fprintf(fdict,"%s",palavra);
+    fprintf(fdict,"%s",trad);
   }
 
   return dict;
@@ -47,11 +66,11 @@ int traduz(ArvAVL *raiz, char *valor){
     return 0;
 }
 
-//int strcmp_n(char *inp1, char *inp2){
-//
-////  for(int i=0;i<strlen())
-//
-//  return 0;
-//}
+int strcmp_n(char *inp1, char *inp2){
+
+//  for(int i=0;i<strlen())
+
+  return 0;
+}
 
 
