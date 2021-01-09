@@ -20,32 +20,39 @@ ArvAVL *lerDict(FILE *fdict){
     fscanf(fdict,"%s",palavra);
     fscanf(fdict,"%s",trad);
 
-    if(acessos>=0) acessos++;
-    
-
     insere_ArvAVL(dict,palavra,trad,acessos);
   }
 
   return dict;
 }
 
-ArvAVL *escreveDict(FILE *fdict, ArvAVL dict){
 
-  int acessos   = dict->acessos;
+struct NO *escreveDict_r(FILE *fdict, ArvAVL dict){
 
-  char palavra[TMAX];
-  strcpy(palavra,dict->info);
+  fprintf(fdict,"%d\n",dict->acessos);
+  fprintf(fdict,"%s\n",dict->info);
+  fprintf(fdict,"%s\n",dict->trad);
 
-  char trad[TMAX];
-  strcpy(trad,dict->info);
+  struct NO *aux = NULL;
 
-  while(acessos>=0){
-    fprintf(fdict,"%d",acessos);
-    fprintf(fdict,"%s",palavra);
-    fprintf(fdict,"%s",trad);
+  if(dict->esq != NULL){
+    aux=escreveDict_r(fdict,dict->esq);
   }
 
-  return dict;
+  if(dict->dir != NULL&&aux==NULL){
+    aux=escreveDict_r(fdict,dict->dir);
+  }
+
+  return aux;
+}
+
+int escreveDict(FILE *fdict, ArvAVL dict){
+
+  escreveDict_r(fdict,dict);
+  
+  fprintf(fdict,"%s\n","-1");
+
+  return 0;
 }
 
 int traduz(ArvAVL *raiz, char *valor){
@@ -65,12 +72,4 @@ int traduz(ArvAVL *raiz, char *valor){
     }
     return 0;
 }
-
-int strcmp_n(char *inp1, char *inp2){
-
-//  for(int i=0;i<strlen())
-
-  return 0;
-}
-
 

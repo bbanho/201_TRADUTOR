@@ -17,8 +17,9 @@
 
 int main()
 {
-  FILE *fdict = fopen("dict.txt","rw");
+  FILE *fdict = fopen("dict.txt","r");
   ArvAVL *avl_dict = lerDict(fdict);
+  fclose(fdict);
 
   int inp_n;
   char inp_s[TMAX];
@@ -38,8 +39,11 @@ int main()
 
   }
 
-  libera_ArvAVL(avl_dict);
+  fdict = fopen("dict.txt","w");
+  escreveDict(fdict,*avl_dict);
   fclose(fdict);
+
+  libera_ArvAVL(avl_dict);
 
     return 0;
 }
