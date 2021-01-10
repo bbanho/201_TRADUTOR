@@ -77,12 +77,9 @@ struct NO *traduz_r(ArvAVL dict, char *str, int n){
 
   struct NO *aux = NULL;
 
-  int len=strlen(str);
-
   for(size_t i=0;i<strlen(str);i++){
     if((dict->info)[i]!=str[i])
       break;
-    printf("%s\n",dict->trad);
   }
 
   if(dict->esq != NULL){
@@ -92,6 +89,8 @@ struct NO *traduz_r(ArvAVL dict, char *str, int n){
   if(dict->dir != NULL&&aux==NULL){
     aux=traduz_r(dict->dir,str,n);
   }
+
+  printf("%s\n",dict->info);
 
   return aux;
 }
