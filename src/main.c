@@ -35,6 +35,7 @@ int main()
     if(inp_n==0){
       traduz(avl_dict,inp_s);
     } else {
+      traduz_r(*avl_dict,inp_s,inp_n);
     }
 
   }
